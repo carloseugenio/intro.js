@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'ivy-publish'
+
+group = 'introjs'
+version = '1.0-SNAPSHOT'
+
+repositories {
+	ivy {
+		name "IvyPublicationRepo"
+		url "file://opt/ivyRep"
+		layout "maven"
+	}
+	jcenter()
+}
+
+task createResources(type: Copy) {
+	from ('minified')
+	into 'build/tmp/resources/introjs'
+}
+
+task webjar(type: Jar, dependsOn: createResources) {
+	from 'build/tmp'
+	into 'META-INF/'
+}
+
+publishing {
+	repositories {
+		ivy {
+			name "IvyPublicationRepo"
+			url "file://opt/ivyRep"
+			layout "maven"
+		}
+	}	
+	publications {
+	    ivyJava(IvyPublication) {
+	        artifact (webjar)
+	    }
+	}
+}
+
+
