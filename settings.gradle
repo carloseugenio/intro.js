@@ -1,0 +1,7 @@
+// Workaround to make the rootProject name to be
+// considered when running with a custom build file in CLI
+if (startParameter.buildFile) {
+ rootProject.buildFileName = startParameter.buildFile.name
+}
+rootProject.name = "intro.js"
+
